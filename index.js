@@ -6,14 +6,18 @@ window.addEventListener("DOMContentLoaded", function() {
     let scene = new BABYLON.Scene(engine);
     scene.clearColor = new BABYLON.Color3.White();
 
+
+    let box = BABYLON.Mesh.CreateBox("Box", 4.0, scene);
+    
     //viewport, an eye.
-    let camera = new BABYLON.FreeCamera(
-      "camera1",
-      new BABYLON.Vector3(6, 6, -10),
+    let camera = new BABYLON.ArcRotateCamera(
+      "arcCamera",
+      BABYLON.Tools.ToRadians(45),
+      BABYLON.Tools.ToRadians(45),
+      10.0,
+      box.position,
       scene
     );
-
-    camera.setTarget(BABYLON.Vector3.Zero());
 
     /*
         attaching the the canvas controls to the camera 
@@ -27,7 +31,6 @@ window.addEventListener("DOMContentLoaded", function() {
     camera.keysLeft.push(65);
     camera.keysRight.push(68);
 
-    let box = BABYLON.Mesh.CreateBox("Box", 4.0, scene);
 
     return scene;
   };
