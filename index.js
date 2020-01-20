@@ -34,28 +34,17 @@ window.addEventListener("DOMContentLoaded", function() {
     camera.keysRight.push(68);
 
     //step 5: create a light source
-    let light = new BABYLON.PointLight(
-      "pointLight",
-      new BABYLON.Vector3(0, 10, 5),
+    let light = new BABYLON.SpotLight(
+      "spotLight",
+      new BABYLON.Vector3(0, 10, 0),
+      new BABYLON.Vector3(0, -1, 0),
+      BABYLON.Tools.ToRadians(45),
+      0.1,
       scene
     );
 
     //color of the light
     light.diffuse = new BABYLON.Color3(1, 0, 0);
-
-    //controlling the lights
-    scene.actionManager = new BABYLON.ActionManager(scene);
-    scene.actionManager.registerAction(
-      new BABYLON.ExecuteCodeAction(
-        {
-          trigger: BABYLON.ActionManager.OnKeyUpTrigger,
-          parameter: " "
-        },
-        () => {
-          light.setEnabled(!light.isEnabled());
-        }
-      )
-    );
 
     return scene;
   };
@@ -67,11 +56,11 @@ window.addEventListener("DOMContentLoaded", function() {
   //this method is called to draw the world.
   engine.runRenderLoop(function() {
 
-    //change the light color every render
-    let light = scene.getLightByName("pointLight");
-    light.diffuse.g += 0.01;
-    light.diffuse.b += 0.01;
-    
+    //make the light go close to the object over time.
+    let light = scene.getLightByName("spotLight");
+    light.position.y -= 0.01;
+
+
     scene.render();
   });
 });
